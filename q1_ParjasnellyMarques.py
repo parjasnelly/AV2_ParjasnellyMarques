@@ -22,7 +22,7 @@ def complete_transaction():
 get_account = lambda login, senha: [conta for conta in contas if conta['login'] == login and conta['senha'] == senha]
 check_account = lambda login, senha: get_account(login, senha)[0] if get_account(login, senha) else []
 
-confirm_payment = lambda login, senha, valor: (update_balance(check_account(login, senha), valor) if check_account(login,senha)['saldo'] >= valor else close_transaction("Insufficient balance")) if len(check_account(login, senha)) > 0 else close_transaction("Verify your credentials)")
+confirm_payment = lambda login, senha, valor: (update_balance(check_account(login, senha), valor) if check_account(login,senha)['saldo'] >= valor else close_transaction("Insufficient balance")) if len(check_account(login, senha)) > 0 else close_transaction("Verify your credentials")
 confirm_cash = lambda login, senha, valor: (update_balance_cash(check_account(login, senha), valor) if check_account(login,senha)['saldo'] >= valor else close_transaction("Insufficient balance")) if len(check_account(login, senha)) > 0 else close_transaction("Verify your credentials")
 check_payment_condition = lambda login, senha, valor, forma_pagamento: cash(login, senha, valor) if forma_pagamento == 'Cash' else fund_transfer(login, senha, valor) if forma_pagamento == 'Fund Transfer' else credit(login, senha, valor) if forma_pagamento == 'Credit' else close_transaction("Invalid payment condition")
 
