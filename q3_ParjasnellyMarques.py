@@ -1,5 +1,6 @@
 import mysql.connector
 
+
 mydb = (lambda: mysql.connector.connect(
     host="localhost",
     user="root",
@@ -7,13 +8,13 @@ mydb = (lambda: mysql.connector.connect(
 crs = (lambda: mydb.cursor(dictionary=True))()
 
 
-# Função para executar comandos SQL
 def exec_sql_cmd(cmd):
     print(f"Executando comando: {cmd}")
     crs.execute(cmd)
     return crs.fetchall()
 
-#Gera string comandos sql
+
+# Gera string comandos sql
 create_table = lambda table, attrs: f"CREATE TABLE IF NOT EXISTS {table} ({attrs});"
 create_db = lambda db_name: f"CREATE DATABASE IF NOT EXISTS {db_name};"
 drop_db = lambda db_name: f"DROP DATABASE {db_name};"
@@ -24,7 +25,7 @@ insert = lambda attrs, table, values: f"INSERT INTO {table} ({attrs}) VALUES ({v
 delete = lambda table, where_cond: f"DELETE FROM {table} WHERE {where_cond};\n" if where_cond != "" else f"DELETE FROM {table};"
 
 
-#Iniciando e pupulando Banco de dados
+# Iniciando e pupulando Banco de dados
 dbname = lambda: "AV2_q3_Parjasnelly"
 
 # Dicionário para as tabelas
@@ -67,18 +68,18 @@ company_data = lambda: [
     {"id_company": 1, "name": "'Sony'", "country": "'Japão'"},
     {"id_company": 2, "name": "'Nintendo'", "country": "'Japão'"},
     {"id_company": 3, "name": "'Microsoft'", "country": "'EUA'"}]
-#Cria database
+# Cria database
 exec_sql_cmd(drop_db(dbname()))
 
 exec_sql_cmd(create_db(dbname()))
 
 exec_sql_cmd(use_db(dbname()))
 
-#Cria tabelas
+# Cria tabelas
 generate_tables = lambda tables: [exec_sql_cmd(create_table(table, tables[table])) for table in tables]
 generate_tables(tables())
 
-#popula tabelas
+# popula tabelas
 populate_tables = lambda array, table: [
     exec_sql_cmd(insert(', '.join(map(str, dic.keys())), table, ', '.join(map(str, dic.values())))) for dic in array]
 
@@ -89,13 +90,13 @@ populate_tables(company_data(), "company")
 mydb.commit()
 
 
-#exemplos de select
+# exemplos de select
 print("Resultado:", exec_sql_cmd(select("*", "users", "country = 'Brasil'")), "\n")
 print("Resultado:",exec_sql_cmd(select("*", "videogames", "name = 'Playstation 4'")), "\n")
 print("Resultado:",exec_sql_cmd(select("title, genre", "games", "id_console = 2")), "\n")
 print("Resultado:",exec_sql_cmd(select("name, country", "company", "country = 'EUA'")), "\n")
 
-#exemplos de delete
+# exemplos de delete
 
 print("Resultado:", exec_sql_cmd(select("*", "users", "country = 'Espanha'")), "\n")
 print("Resultado:", exec_sql_cmd(delete("users", "country = 'Espanha'")), "\n")
@@ -105,5 +106,5 @@ print("Resultado:", exec_sql_cmd(select("*", "users", "country = 'Países Baixos
 print("Resultado:", exec_sql_cmd(delete("videogames", "name = 'Xbox Series X'")), "\n")
 print("Resultado:", exec_sql_cmd(delete("company", "country = 'Japão'")), "\n")
 
-#fechando conexão
+# fechando conexão
 mydb.close()

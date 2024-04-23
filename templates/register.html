@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>Register page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Faça seu Cadastro</h1>
+      <br>
+      <form action="" method="post">
+        <input type="text" placeholder="Usuário" name="username" value="{{
+          request.form.username }}">
+         <input type="password" placeholder="Senha" name="password" value="{{
+          request.form.password }}">
+        <input class="btn btn-default" type="submit" value="Cadastrar">
+      </form>
+    </div>
+  </body>
+</html>
